@@ -33,7 +33,7 @@ LOG_MODULE_REGISTER(MODULE, CONFIG_DESKTOP_BLE_QOS_LOG_LEVEL);
 #define INVALID_BLACKLIST 0xFFFF
 
 #if CONFIG_DESKTOP_BLE_QOS_STATS_PRINTOUT_ENABLE
-# if DT_NORDIC_NRF_USBD_USBD_0_NUM_IN_ENDPOINTS < 4
+# if DT_PROP(DT_NODELABEL(usbd), num_in_endpoints) < 4
 # error Too few USB IN Endpoints enabled. \
 	Modify appropriate dts.overlay to increase num-in-endpoints to 4 or more
 # endif
@@ -408,14 +408,14 @@ static void hid_pkt_stats_print(u32_t ble_recv)
 static bool on_vs_evt(struct net_buf_simple *buf)
 {
 	u8_t *subevent_code;
-	hci_vs_evt_qos_conn_event_report_t *evt;
+	hci_vs_subevent_qos_conn_event_report_t *evt;
 
 	subevent_code = net_buf_simple_pull_mem(
 		buf,
 		sizeof(*subevent_code));
 
 	switch (*subevent_code) {
-	case HCI_VS_SUBEVENT_CODE_QOS_CONN_EVENT_REPORT:
+	case HCI_VS_SUBEVENT_QOS_CONN_EVENT_REPORT:
 		if (atomic_get(&processing)) {
 			/* Cheaper to skip this update */
 			/* instead of using locks */

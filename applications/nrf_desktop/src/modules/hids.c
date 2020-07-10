@@ -48,7 +48,10 @@ BT_GATT_HIDS_DEF(hids_obj,
 		 REPORT_SIZE_CONSUMER_CTRL,
 #endif
 #if CONFIG_DESKTOP_CONFIG_CHANNEL_ENABLE
-		 REPORT_SIZE_USER_CONFIG,
+		 REPORT_SIZE_USER_CONFIG, /* HID feature report. */
+#if CONFIG_DESKTOP_CONFIG_CHANNEL_OUT_REPORT
+		 REPORT_SIZE_USER_CONFIG, /* HID output report. */
+#endif
 #endif
 		 0 /* Appease macro with a dummy zero */
 );
@@ -360,6 +363,16 @@ static int module_init(void)
 		or_pos++;
 	}
 
+	if (IS_ENABLED(CONFIG_DESKTOP_CONFIG_CHANNEL_OUT_REPORT)) {
+		__ASSERT_NO_MSG(IS_ENABLED(CONFIG_DESKTOP_CONFIG_CHANNEL_ENABLE));
+		output_report[or_pos].id      = REPORT_ID_USER_CONFIG_OUT;
+		output_report[or_pos].size    = REPORT_SIZE_USER_CONFIG;
+		output_report[or_pos].handler = feature_report_handler;
+
+		report_index[output_report[or_pos].id] = or_pos;
+		or_pos++;
+	}
+
 	hids_init_param.outp_rep_group_init.cnt = or_pos;
 
 	/* Boot protocol setup */
@@ -439,7 +452,11 @@ static void send_hid_report(const struct hid_report_event *event)
 	}
 
 	if (err) {
-		LOG_ERR("Cannot send report (%d)", err);
+		if (err == -ENOTCONN) {
+			LOG_WRN("Device disconnected");
+		} else {
+			LOG_ERR("Cannot send report (%d)", err);
+		}
 		hid_report_sent(cur_conn, report_id, true);
 	}
 }

@@ -172,6 +172,24 @@ static int ble_adv_stop(void)
 	return err;
 }
 
+static void conn_find(struct bt_conn *conn, void *data)
+{
+	struct bt_conn **temp_conn = data;
+	struct bt_conn_info bt_info;
+	int err = bt_conn_get_info(conn, &bt_info);
+
+	if (err) {
+		LOG_ERR("Cannot get conn info");
+		module_set_state(MODULE_STATE_ERROR);
+	} else if (bt_info.id == cur_identity) {
+		/* Peripheral can have only one Bluetooth connection per
+		 * Bluetooth local identity.
+		 */
+		__ASSERT_NO_MSG((*temp_conn) == NULL);
+		(*temp_conn) = conn;
+	}
+}
+
 static void bond_find(const struct bt_bond_info *info, void *user_data)
 {
 	struct bond_find_data *bond_find_data = user_data;
@@ -282,6 +300,14 @@ static int ble_adv_start(bool can_fast_adv)
 		goto error;
 	}
 
+	struct bt_conn *conn = NULL;
+
+	bt_conn_foreach(BT_CONN_TYPE_LE, conn_find, &conn);
+	if (conn) {
+		LOG_INF("Already connected, do not advertise");
+		return 0;
+	}
+
 	bool direct = false;
 
 	if (bond_find_data.peer_id < bond_find_data.peer_count) {
@@ -299,11 +325,7 @@ static int ble_adv_start(bool can_fast_adv)
 					       fast_adv);
 	}
 
-	if (err == -ECONNREFUSED || (err == -ENOMEM)) {
-		LOG_WRN("Already connected, do not advertise");
-		err = 0;
-		goto error;
-	} else if (err) {
+	if (err) {
 		LOG_ERR("Advertising failed to start (err %d)", err);
 		goto error;
 	}
@@ -560,24 +582,12 @@ static bool event_handler(const struct event_header *eh)
 
 			err = ble_adv_stop();
 
-			/* Disconnect an old identity. */
-			struct bond_find_data bond_find_data = {
-				.peer_id = 0,
-				.peer_count = 0,
-			};
-			bt_foreach_bond(cur_identity, bond_find,
-					&bond_find_data);
-			__ASSERT_NO_MSG(bond_find_data.peer_count <= 1);
-
 			struct bt_conn *conn = NULL;
 
-			if (bond_find_data.peer_count > 0) {
-				conn = bt_conn_lookup_addr_le(cur_identity,
-						&bond_find_data.peer_address);
-				if (conn) {
-					disconnect_peer(conn);
-					bt_conn_unref(conn);
-				}
+			bt_conn_foreach(BT_CONN_TYPE_LE, conn_find, &conn);
+
+			if (conn) {
+				disconnect_peer(conn);
 			}
 
 			cur_identity = event->bt_stack_id;

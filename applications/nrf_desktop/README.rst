@@ -727,6 +727,9 @@ The nRF Desktop application is built the same way to any other |NCS| application
 
 .. include:: /includes/build_and_run.txt
 
+.. note::
+    Information about the known issues in nRF Desktop can be found in |NCS|'s :ref:`release_notes` and on the `Known issues`_ wiki page.
+
 .. _nrf_desktop_selecting_build_types:
 
 Selecting a build type
@@ -819,6 +822,8 @@ The nRF Desktop application uses the following files as configuration sources:
 You must modify these configuration sources when `Adding a new board`_.
 For information about differences between DTS and Kconfig, see :ref:`zephyr:dt_vs_kconfig`.
 
+.. _nrf_desktop_board_configuration:
+
 Board configuration
 ===================
 
@@ -904,6 +909,7 @@ To use the nRF Desktop application with your custom board:
 
    * Pins that are used.
    * Bus configuration for optical sensor.
+   * `Changing interrupt priority`_.
 
 #. Edit the reference design's Kconfig files to make sure they match the required system configuration.
    For example, disable the drivers that will not be used by your device.
@@ -954,6 +960,173 @@ To use the nRF Desktop application with your custom board:
 #. Edit Kconfig to disable options that you do not use.
    Some options have dependencies that might not be needed when these options are disabled.
    For example, when the LEDs module is disabled, the PWM driver is not needed.
+
+.. _porting_guide_adding_sensor:
+
+Adding a new motion sensor
+==========================
+
+This procedure describes how to add a new motion sensor into the project.
+You can use it as a reference for adding other hardware components.
+
+The nRF Desktop application comes with a :ref:`nrf_desktop_motion` that is able to read data from a motion sensor.
+While |NCS| provides support for two motion sensor drivers (PMW3360 and PAW3212), you can add support for a different sensor, based on your development needs.
+
+Complete the following steps to add a new motion sensor:
+
+.. contents::
+    :local:
+    :depth: 1
+
+1. Add a new sensor driver
+--------------------------
+
+First, create a new motion sensor driver that will provide code for communication with the sensor.
+Use the two existing |NCS| sensor drivers as an example.
+
+The communication between the application and the sensor is done through a sensor driver API (see :ref:`sensor_api`).
+For motion module to work correctly, the driver must support a trigger (see ``sensor_trigger_set``) on a new data (see ``SENSOR_TRIG_DATA_READY`` trigger type).
+
+When motion data is ready, the driver calls a registered callback.
+The application starts a process of retrieving a motion data sample.
+The motion module calls ``sensor_sample_fetch`` and then ``sensor_channel_get`` on two sensor channels, ``SENSOR_CHAN_POS_DX`` and ``SENSOR_CHAN_POS_DY``.
+The driver must support these two channels.
+
+2. Create a DTS binding
+-----------------------
+
+Zephyr recommends to use DTS for hardware configuration (see :ref:`zephyr:dt_vs_kconfig`).
+For the new motion sensor configuration to be recognized by DTS, define a dedicated DTS binding.
+See :ref:`dt-bindings` for more information, and refer to :file:`dts/bindings/sensor` for binding examples.
+
+3. Configure sensor through DTS
+-------------------------------
+
+Once binding is defined, it is possible to set the sensor configuration.
+This is done by editing the DTS file that describes the board.
+For more information, see :ref:`devicetree-intro`.
+
+As an example, take a look at the PMW3360 sensor that already exists in |NCS|.
+The following code excerpt is taken from :file:`boards/arm/nrf52840gmouse_nrf52840/nrf52840gmouse_nrf52840.dts`.
+
+.. code-block:: none
+
+   &spi1 {
+   	compatible = "nordic,nrf-spim";
+   	status = "okay";
+   	sck-pin = <16>;
+   	mosi-pin = <17>;
+   	miso-pin = <15>;
+   	cs-gpios = <&gpio0 13 0>;
+
+   	pmw3360@0 {
+   		compatible = "pixart,pmw3360";
+   		reg = <0>;
+   		irq-gpios = <&gpio0 21 0>;
+   		spi-max-frequency = <2000000>;
+   		label = "PMW3360";
+   	};
+   };
+
+The communication with PMW3360 is done through the SPI, which makes the sensor a subnode of the SPI bus node.
+SPI pins are defined as part of the bus configuration, as these are common among all devices connected to this bus.
+In this case, the PMW3360 sensor is the only device on this bus and so there is only one pin specified for selecting chip.
+
+When the sensor's node is mentioned, you can read ``@0`` in ``pmw3360@0``.
+For SPI devices, ``@0`` refers to the position of the chip select pin in the ``cs-gpios`` array for a corresponding device.
+
+Note the string ``compatible = "pixart,pmw3360"`` in the subnode configuration.
+This string indicates which DTS binding the node will use.
+The binding should match with the DTS binding created earlier for the sensor.
+
+The following options are inherited from the ``spi-device`` binding and are common to all SPI devices:
+
+* ``reg`` - The slave ID number the device has on a bus.
+* ``label`` - Used to generate a name of the device (for example, it will be added to generated macros).
+* ``spi-max-frequency`` - Used for setting the bus clock frequency.
+
+  .. note::
+      To achieve the full speed, data must be propagated through the application and reach |BLE| a few hundred microseconds before the subsequent connection event.
+      If you aim for the lowest latency through the LLPM (a 1-ms interval), the sensor data readout should take no more then 250 us.
+      The bus and the sensor configuration must ensure that communication speed is fast enough.
+
+The remaining option ``irq-gpios`` is specific to ``pixart,pmw3360`` binding.
+It refers to the PIN to which the motion sensor IRQ line is connected.
+
+If a different kind of bus is used for the new sensor, the DTS layout will be different.
+
+4. Include sensor in the application
+------------------------------------
+
+Once the new sensor is supported by |NCS| and board configuration is updated, you can include it in the nRF Desktop application.
+
+The nRF Desktop application selects a sensor using the configuration options defined in :file:`src/hw_interface/Kconfig.motion`.
+Add the new sensor as a new choice option.
+
+The :ref:`nrf_desktop_motion` of the nRF Desktop application has access to several sensor attributes.
+These attributes are used to modify the sensor behavior in runtime.
+Since the names of the attributes differ for each sensor, the :ref:`nrf_desktop_motion` uses a generic abstraction of them.
+You can translate the new sensor-specific attributes to a generic abstraction by modifying :file:`configuration/common/motion_sensor.h` .
+
+.. tip::
+    If an attribute is not supported by the sensor, it does not have to be defined.
+    In such case, set the attribute to ``-ENOTSUP``.
+
+5. Select the new sensor
+------------------------
+
+After all the previous steps are done, the new sensor can be used by the application.
+Edit the application configuration files for your board to enable it.
+See :ref:`nrf_desktop_board_configuration` for details.
+
+At this point, you can start using the new sensor by completing the following steps:
+
+1. Enable all dependencies required by the driver (for example, bus driver).
+#. Enable the new sensor driver.
+#. Select the new sensor driver in the application configuration options.
+
+Changing interrupt priority
+---------------------------
+
+You can edit the DTS files to change the priority of the peripheral's interrupt.
+This can be useful when :ref:`adding a new custom board <porting_guide_adding_board>` or whenever you need to change the interrupt priority.
+
+The ``interrupts`` property is an array, where meaning of each element is defined by the specification of the interrupt controller.
+These specification files are located at :file:`zephyr/dts/bindings/interrupt-controller/` DTS binding file directory.
+
+For example, for nRF52840 the file is :file:`arm,v7m-nvic.yaml`.
+This file defines ``interrupts`` property in the ``interrupt-cells`` list.
+In case of nRF52840, it contains two elements: ``irq`` and ``priority``.
+The default values for these elements for the given peripheral can be found in the :file:`dtsi` file specific for the device.
+In case of nRF52840, this is :file:`zephyr/dts/arm/nordic/nrf52840.dtsi`, which has the following ``interrupts`` property for nRF52840:
+
+.. code-block::
+
+   spi1: spi@40004000 {
+           /*
+            * This spi node can be SPI, SPIM, or SPIS,
+            * for the user to pick:
+            * compatible = "nordic,nrf-spi" or
+            *              "nordic,nrf-spim" or
+            *              "nordic,nrf-spis".
+            */
+           #address-cells = <1>;
+           #size-cells = <0>;
+           reg = <0x40004000 0x1000>;
+           interrupts = <4 1>;
+           status = "disabled";
+           label = "SPI_1";
+   };
+
+To change the priority of the peripheral's interrupt, override the ``interrupts`` property of the peripheral node by including the following code snippet in the :file:`dts.overlay` or directly in the board DTS:
+
+.. code-block:: none
+
+   &spi1 {
+       interrupts = <4 2>;
+   };
+
+This code snippet will change the **SPI1** interrupt priority from default ``1`` to ``2``.
 
 .. _nrf_desktop_flash_memory_layout:
 

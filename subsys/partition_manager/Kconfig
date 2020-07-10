@@ -21,6 +21,12 @@ partition-size=0x2000
 rsource "Kconfig.template.partition_size"
 endif
 
+if NVS && !SETTINGS_NVS
+partition=NVS_STORAGE
+partition-size=0x6000
+rsource "Kconfig.template.partition_size"
+endif
+
 if ZIGBEE
 partition=ZBOSS_NVRAM
 partition-size=0x8000
@@ -32,6 +38,12 @@ rsource "Kconfig.template.partition_size"
 endif
 
 endmenu
+
+config PM_SINGLE_IMAGE
+	bool "Use the Partition Manager for single image builds"
+	help
+	  Use the Partition Manager feature to partition the device even if
+	  only a single image is included in the build.
 
 menuconfig PM_EXTERNAL_FLASH
 	bool "Support external flash in Partition Manager"

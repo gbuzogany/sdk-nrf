@@ -90,12 +90,13 @@ Request Power Saving Mode (PSM)
 Requirements
 ************
 
-* One of the following development boards:
+The sample supports the following development kits:
 
-    * |nRF9160DK|
-    * |Thingy91|
+.. include:: /includes/boardname_tables/sample_boardnames.txt
+   :start-after: set6_start
+   :end-before: set6_end
 
-* .. include:: /includes/spm.txt
+.. include:: /includes/spm.txt
 
 .. _asset_tracker_user_interface:
 
@@ -227,14 +228,14 @@ Dependencies
 
 This application uses the following |NCS| libraries and drivers:
 
-    * :ref:`lib_nrf_cloud`
-    * :ref:`modem_info_readme`
-    * :ref:`at_cmd_parser_readme`
-    * ``drivers/nrf9160_gps``
-    * ``lib/bsd_lib``
-    * ``drivers/sensor/sensor_sim``
-    * :ref:`dk_buttons_and_leds_readme`
-    * ``drivers/lte_link_control``
+* :ref:`lib_nrf_cloud`
+* :ref:`modem_info_readme`
+* :ref:`at_cmd_parser_readme`
+* ``drivers/nrf9160_gps``
+* ``lib/bsd_lib``
+* ``drivers/sensor/sensor_sim``
+* :ref:`dk_buttons_and_leds_readme`
+* ``drivers/lte_link_control``
 
 In addition, it uses the Secure Partition Manager sample:
 

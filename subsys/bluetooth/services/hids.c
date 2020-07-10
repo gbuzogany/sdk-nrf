@@ -392,6 +392,12 @@ static ssize_t hids_feat_rep_write(struct bt_conn *conn,
 				   void const *buf, u16_t len, u16_t offset,
 				   u8_t flags)
 {
+	/* Write command operation is not allowed for this characteristic. */
+	if (flags & BT_GATT_WRITE_FLAG_CMD) {
+		LOG_DBG("Feature Report write command received. Ignore received data.");
+		return BT_GATT_ERR(BT_ATT_ERR_NOT_SUPPORTED);
+	}
+
 	LOG_DBG("Writing to Feature Report characteristic.");
 
 	struct bt_gatt_hids_outp_feat_rep *rep = attr->user_data;
@@ -959,7 +965,7 @@ int bt_gatt_hids_init(struct bt_gatt_hids *hids_obj,
 	BT_GATT_POOL_CHRC(&hids_obj->gp,
 			  BT_UUID_HIDS_CTRL_POINT,
 			  BT_GATT_CHRC_WRITE_WITHOUT_RESP,
-			  HIDS_GATT_PERM_DEFAULT | GATT_PERM_WRITE_MASK,
+			  HIDS_GATT_PERM_DEFAULT & GATT_PERM_WRITE_MASK,
 			  NULL, hids_ctrl_point_write, &hids_obj->cp);
 
 	/* Register HIDS attributes in GATT database. */

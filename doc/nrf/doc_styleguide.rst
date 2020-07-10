@@ -221,8 +221,8 @@ Whenever you use the tag in an RST document, it will be replaced with the text s
 
 You can reuse the content with the same tag either on one page or on multiple pages:
 
-    * To reuse the text on one page, define the ``|tag|`` and the replacement text between the page tag and the page title.
-    * To reuse the text on multiple pages, define the ``|tag|`` and the replacement text in :file:`nrf/doc/nrf/shortcuts.txt`.
+* To reuse the text on one page, define the ``|tag|`` and the replacement text between the page tag and the page title.
+* To reuse the text on multiple pages, define the ``|tag|`` and the replacement text in :file:`nrf/doc/nrf/shortcuts.txt`.
 
 For example, see the following code sample taken the source of this page:
 
@@ -433,7 +433,7 @@ Enums
 =====
 
 The documentation block should precede the documented element.
-This is in accordance with the `Zephyr coding style`_.
+This is in accordance with the :ref:`Zephyr coding style <zephyr:contribute_guidelines>`.
 
 
 .. code-block:: c
@@ -452,7 +452,7 @@ Structs
 =======
 
 The documentation block should precede the documented element.
-This is in accordance with the `Zephyr coding style`_.
+This is in accordance with the :ref:`Zephyr coding style <zephyr:contribute_guidelines>`.
 Make sure to add ``:members:`` when you include the API documentation in RST; otherwise, the member documentation will not show up.
 
 .. code-block:: c
@@ -498,7 +498,7 @@ Typedefs
 ========
 
 The documentation block should precede the documented element.
-This is in accordance with the `Zephyr coding style`_.
+This is in accordance with the :ref:`Zephyr coding style <zephyr:contribute_guidelines>`.
 
 .. code-block:: c
 

@@ -55,15 +55,15 @@ There are two main types of Git repositories in the |NCS| repository set:
 
 * nRF repositories
 
-  - Created, developed, and maintained by Nordic.
-  - Usually licensed for use on Nordic products only.
+  * Created, developed, and maintained by Nordic.
+  * Usually licensed for use on Nordic products only.
 
 * OSS repositories
 
-  - Created and maintained by Nordic.
-  - Soft forks of open-source projects.
-  - Typically contain a small set of changes that are specific to |NCS|.
-  - Updated ("upmerged") regularly with the latest changes from the open source project.
+  * Created and maintained by Nordic.
+  * Soft forks of open-source projects.
+  * Typically contain a small set of changes that are specific to |NCS|.
+  * Updated ("upmerged") regularly with the latest changes from the open source project.
 
 nRF repositories are stand-alone and have no upstreams, since they are unique to the |NCS|.
 Some examples of repositories of this type are:
@@ -80,7 +80,7 @@ For example:
 Repository structure
 ====================
 
-In order to manage the combination of repositories and versions, the |NCS| uses :ref:`west <zephyr:west>`, the same tool that the Zephyr Project uses to manage its repository set.
+In order to manage the combination of repositories and versions, the |NCS| uses :ref:`west <zephyr:west>`, the same tool that Zephyr uses to manage its repository set.
 You can learn more about the reasons behind the introduction of west in :ref:`this section <zephyr:west-history>` of the Zephyr documentation.
 
 A :ref:`manifest repository <zephyr:west-manifests>`, `sdk-nrf`_, contains a file in its root folder, :file:`west.yml`, which lists all other repositories (west projects) included in the |NCS|.
@@ -114,13 +114,14 @@ As discussed above, the revision of the manifest repository, `sdk-nrf`_, uniquel
 The ``master`` branch of the `sdk-nrf`_ repository always contains the latest development state of the |NCS|.
 Since all development is done openly, you can use it if you are not particularly concerned about stability and want to track the latest changes that are being merged continuously into the different repositories.
 
-The Git tags follow the `Semantic Versioning 2.0.0`_ format and they correspond to official releases tested and signed by the Nordic engineers. The format is as follows::
+The Git tags correspond to official releases tested and signed by the Nordic engineers.
+The format is as follows::
 
   vX.Y.Z(-rcN)
 
 Where X, Y, and Z are the major, minor, and patch version respectively and, optionally, a release candidate postfix ``-rcN`` is attached if the tag identifies a candidate instead of the actual release.
 
-The Git tags follow the `Semantic Versioning 2.0.0`_ format as follows::
+The Git tags are composed as follows::
 
   vX.Y.Z(-rcN|-devN)
 
@@ -143,12 +144,12 @@ The short logs for these downstream patches contain ``[nrf xyz]`` at the beginni
 This makes their different purposes downstream clearer, and makes them easier to search for and see in ``git log``.
 The current values of ``[nrf xyz]`` are:
 
-- ``[nrf mergeup]``: periodic merges of the upstream tree
-- ``[nrf fromlist]``: patches which have upstream pull requests, including any later revisions
-- ``[nrf toup]``: patches which Nordic developers intend to submit upstream later
-- ``[nrf noup]``: patches which are specific to the |NCS|
-- ``[nrf temphack]``: temporary patches with some known issues
-- ``[nrf fromtree]``: patches which have been cherry-picked from an upstream tree
+* ``[nrf mergeup]``: periodic merges of the upstream tree
+* ``[nrf fromlist]``: patches which have upstream pull requests, including any later revisions
+* ``[nrf toup]``: patches which Nordic developers intend to submit upstream later
+* ``[nrf noup]``: patches which are specific to the |NCS|
+* ``[nrf temphack]``: temporary patches with some known issues
+* ``[nrf fromtree]``: patches which have been cherry-picked from an upstream tree
 
 It is important to note that the **downstream project history is periodically rewritten**.
 This is important to prevent the number of downstream patches included in a specific NCS release from increasing forever.
@@ -157,9 +158,9 @@ A repository's history is typically only rewritten once for every |NCS| release.
 To make incorporating new history into your own forks easier, a new point in the downstream |NCS| history is always created which has an empty ``git diff`` with the previous version.
 The empty diff means you can always use:
 
-- ``git merge`` to get the rewritten history merged into your own fork without errors
-- ``git rebase --onto`` or ``git cherry-pick`` to reapply any of your own patches cleanly before and after the history rewrite
-- ``git cherry`` to list any additional patches you may have applied to these projects to rewrite history as needed
+* ``git merge`` to get the rewritten history merged into your own fork without errors
+* ``git rebase --onto`` or ``git cherry-pick`` to reapply any of your own patches cleanly before and after the history rewrite
+* ``git cherry`` to list any additional patches you may have applied to these projects to rewrite history as needed
 
 Additionally, both the old and new histories are committed sequentially into the ``revision`` fields for these projects in the :file:`nrf/west.yml` west
 manifest file.
@@ -204,7 +205,7 @@ In order to obtain a fresh copy of the |NCS| at revision ``{revision}`` and plac
   west update
 
 Replace ``{revision}`` with any revision you wish to obtain.
-This can be ``master`` if you want the latest state, or any released version (e.g. ``v1.2.0``).
+This can be ``master`` if you want the latest state, or any released version (e.g. ``v1.3.0``).
 If you omit the ``--mr`` parameter, west defaults to ``master``.
 
 .. _dm-wf-update-ncs:
@@ -250,9 +251,9 @@ The procedure to achieve that is the same regardless of whether you fork the man
 
 There are two similar but slightly different meanings to the term "fork", as described in the :ref:`dm-glossary`:
 
-  * A fork in general terms is a server-hosted copy of an upstream repository with a few downstream changes on top of it.
-    It can be hosted on GitHub or elsewhere.
-  * A `GitHub fork`_ is GitHub's mechanism to copy an existing repository and then send Pull Requests from it to the upstream repository.
+* A fork in general terms is a server-hosted copy of an upstream repository with a few downstream changes on top of it.
+  It can be hosted on GitHub or elsewhere.
+* A `GitHub fork`_ is GitHub's mechanism to copy an existing repository and then send Pull Requests from it to the upstream repository.
 
 A GitHub fork can be used to send Pull Requests and to act as a regular long-lived fork in general terms.
 You can also create standard forks with GitHub by just creating an empty repository first and then initializing it with the contents of the upstream repository you wish to fork.
@@ -261,9 +262,9 @@ You can also create standard forks with GitHub by just creating an empty reposit
    About Git remotes: The default name for a remote is ``origin`` but you can pick any arbitrary name for a remote.
    By convention, the following remote names are typically used:
 
-   - ``origin`` usually points to the user's personal copy of the repository.
-   - ``ncs`` is used to point to the |NCS| repository.
-   - ``upstream`` typically points to the upstream repository, when applicable.
+   * ``origin`` usually points to the user's personal copy of the repository.
+   * ``ncs`` is used to point to the |NCS| repository.
+   * ``upstream`` typically points to the upstream repository, when applicable.
 
    The ``west init`` command creates a remote named ``origin`` that points to the original location of the cloned manifest repository.
    The ``west update`` command, on the other hand, uses the ``remote:`` property in the :file:`west.yml` file to name the remote pointing to the original location.
@@ -294,9 +295,9 @@ If you want to create a `GitHub fork`_ follow the steps below:
 
   That way you would actually have three remotes, each pointing to the relevant copy of the Zephyr codebase:
 
-    * ``origin`` pointing to your own fork of ``sdk-zephyr``.
-    * ``ncs`` pointing to the |NCS| `sdk-zephyr`_.
-    * ``upstream`` pointing to the upstream `official Zephyr repository`_.
+  * ``origin`` pointing to your own fork of ``sdk-zephyr``.
+  * ``ncs`` pointing to the |NCS| `sdk-zephyr`_.
+  * ``upstream`` pointing to the upstream `official Zephyr repository`_.
 
 To create a regular fork, follow the exact same steps as above, but the actual repository must be created by you beforehand, instead of clicking **Fork** in GitHub.
 Also, since a GitHub fork automatically initializes the forked repository with the exact same contents as the original one, you must push the contents yourself::
@@ -314,11 +315,11 @@ Below you can find a few practical workflows that can be used by an application 
 Which one to choose depends on the type of application, the timeframe to develop it, and the need to update the |NCS| version used.
 All workflows are described under the following basic assumptions:
 
-- One or more applications are to be developed using the |NCS|.
-- Additional board definitions might be required by the user.
-- Additional libraries might be required by the user.
-- The term "application" refers to the application code and any board definitions and libraries it requires.
-- The application(s) will require updates of the |NCS| revision.
+* One or more applications are to be developed using the |NCS|.
+* Additional board definitions might be required by the user.
+* Additional libraries might be required by the user.
+* The term "application" refers to the application code and any board definitions and libraries it requires.
+* The application(s) will require updates of the |NCS| revision.
 
 Workflow 1: Eschew Git and west
 -------------------------------
@@ -381,7 +382,7 @@ This is demonstrated by the following code:
      projects:
        - name: nrf
          remote: ncs
-         revision: v1.2.0
+         revision: v1.3.0
          import: true
      self:
        path: application
@@ -390,8 +391,8 @@ Importing :file:`west.yml` also results in the addition of all the NCS projects,
 
 Then, make the following changes:
 
-  * Point the entries of any |NCS| repositories that you have forked to your fork and fork revision, by adding them to the ``projects`` list using a new remote.
-  * Add any entries for repositories that you need that are not part of the |NCS|.
+* Point the entries of any |NCS| repositories that you have forked to your fork and fork revision, by adding them to the ``projects`` list using a new remote.
+* Add any entries for repositories that you need that are not part of the |NCS|.
 
 For example:
 
@@ -408,7 +409,7 @@ For example:
      projects:
        - name: nrf
          remote: ncs
-         revision: v1.2.0
+         revision: v1.3.0
          import: true
        # Example for how to override a repository in the NCS with your own:
        - name: mcuboot

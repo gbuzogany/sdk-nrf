@@ -54,7 +54,15 @@ Requirements
 
 * One of the following development kits:
 
-  * |nRF5340DK|
+  * |nRF5340DK|; if you use this development kit, add the following options to the configuration of the network sample:
+
+    .. code-block:: none
+
+        CONFIG_BT_CTLR_TX_BUFFER_SIZE=74
+        CONFIG_BT_CTLR_DATA_LENGTH_MAX=74
+
+    This is required because Bluetooth Mesh has different |BLE| Controller requirements than other Bluetooth samples.
+
   * |nRF52840DK|
   * |nRF52DK|
   * |nRF51DK|

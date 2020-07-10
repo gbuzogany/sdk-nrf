@@ -9,6 +9,7 @@
 
 #include <zephyr.h>
 #include <stdio.h>
+#include <fcntl.h>
 #include <net/mqtt.h>
 #include <net/socket.h>
 #include <net/cloud.h>
@@ -584,7 +585,8 @@ static void aws_fota_cb_handler(struct aws_fota_event *fota_evt)
 		}
 
 		prog.data.ptr = fota_status;
-		LOG_ERR("JOB STATUS: %s", log_strdup(prog.data.ptr));
+		LOG_DBG("Job status (ID/progress): %s",
+			log_strdup(prog.data.ptr));
 		err = job_status_stream(&prog);
 		if (err) {
 			LOG_ERR("job_status_stream failed %d", err);
@@ -644,7 +646,21 @@ int nct_mqtt_connect(void)
 	err = mqtt_connect(&nct.client);
 	if (err != 0) {
 		LOG_DBG("mqtt_connect failed %d", err);
+		return err;
 	}
+
+	if (IS_ENABLED(CONFIG_NRF_CLOUD_NONBLOCKING_SEND)) {
+		err = fcntl(nct_socket_get(), F_SETFL, O_NONBLOCK);
+		if (err == -1) {
+			LOG_ERR("Failed to set socket as non-blocking, err: %d",
+				errno);
+			LOG_WRN("Continuing with blocking socket");
+			err = 0;
+		} else {
+			LOG_INF("Using non-blocking socket");
+		}
+	}
+
 	return err;
 }
 

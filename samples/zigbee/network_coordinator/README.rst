@@ -13,44 +13,21 @@ Overview
 This Zigbee network coordinator sample demonstrates the Zigbee Coordinator role.
 It is a minimal implementation that supports only the network steering commissioning mechanism.
 
-Additional radio features
-=========================
-
-The sample supports additional radio features:
-
-* Power Amplifier and Low Noise Amplifier Front-End Module (PA/LNA FEM).
-* Antenna diversity FEM feature.
-* Packet Traffic Arbiter (PTA) for systems with multiple radio modules.
-
-For more details about each of those features refer to :ref:`ug_zigbee`.
-
-.. _zigbee_network_coordinator_sample_radio_enabling:
-
-Enabling additional radio features
-----------------------------------
-
-To enable additional radio features for the sample, modify :makevar:`CONF_FILE` by applying proper configuration files before `Building and running`_ the sample.
-
-Three configuration overlay files are provided in the sample, one for each feature:
-
-* :file:`overlay-ant_div.conf` - Enables support for the antenna diversity FEM feature in automated RX mode.
-* :file:`overlay-pa_lna.conf` - Enables support for PA/LNA FEM feature.
-* :file:`overlay-wifi_coex.conf` - Enables support for PTA for systems with multiple radio modules.
-
-For more information about using configuration overlay files, see :ref:`important-build-vars` in the Zephyr documentation.
-
 Requirements
 ************
 
-* One of the following development kits:
+The sample supports the following development kits:
 
-  * |nRF52840DK|
-  * |nRF52833DK|
+.. include:: /includes/boardname_tables/sample_boardnames.txt
+   :start-after: set8_start
+   :end-before: set8_end
 
-* One or both of the following samples:
+You can use one of the development kits listed above.
 
-  * The :ref:`Zigbee light bulb <zigbee_light_bulb_sample>` sample programmed on one or more separate devices.
-  * The :ref:`Zigbee light switch <zigbee_light_switch_sample>` sample programmed on one or more separate devices.
+Optionally, you can use this sample with one or both of the following samples:
+
+* The :ref:`Zigbee light bulb <zigbee_light_bulb_sample>` sample programmed on one or more separate devices.
+* The :ref:`Zigbee light switch <zigbee_light_switch_sample>` sample programmed on one or more separate devices.
 
 You can mix different development kits.
 
@@ -118,7 +95,7 @@ This sample uses the following |NCS| libraries:
 
 This sample uses the following `nrfxlib`_ libraries:
 
-* ZBOSS Zigbee stack
+* :ref:`nrfxlib:zboss`
 
 In addition, it uses the following Zephyr libraries:
 

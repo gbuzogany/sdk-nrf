@@ -34,12 +34,18 @@ Devices in the nRF52 Series are supported by these boards in the Zephyr open sou
    * - :ref:`zephyr:nrf52833dk_nrf52833`
      - PCA10100
      - ``nrf52833dk_nrf52833``
+   * - :ref:`zephyr:nrf52833dk_nrf52820`
+     - PCA10100
+     - ``nrf52833dk_nrf52820``
    * - :ref:`zephyr:nrf52dk_nrf52832`
      - PCA10040
      - ``nrf52dk_nrf52832``
    * - :ref:`zephyr:nrf52dk_nrf52810`
      - PCA10040
      - ``nrf52dk_nrf52810``
+   * - :ref:`zephyr:nrf52840dongle_nrf52840`
+     - PCA10059
+     - ``nrf52840dongle_nrf52840``
 
 nRF Desktop
 ===========
@@ -85,7 +91,7 @@ See :ref:`zephyr:bluetooth` for documentation on the Bluetooth Host and open sou
 For documentation about the nRF Bluetooth LE Controller and information on what variants of the controller support which chips, see :ref:`nrfxlib:ble_controller`.
 
 The |NCS| contains a variety of :ref:`ble_samples` that target nRF52 Series devices.
-In addition, you can run the :ref:`zephyr:bluetooth-samples` that are included from the Zephyr project.
+In addition, you can run the :ref:`zephyr:bluetooth-samples` that are included from Zephyr.
 
 For available libraries, see :ref:`lib_bluetooth_services` (|NCS|) and :ref:`zephyr:bluetooth_api` (Zephyr).
 
@@ -109,7 +115,7 @@ The range of NFC is typically <10 cm.
 
 |NCS| provides two protocol stacks for developing NFC applications: Type 2 Tag and Type 4 Tag.
 These stacks are provided in binary format in the `nrfxlib`_ repository.
-See :ref:`nrfxlib:nfc` for documentation about the NFC stacks.
+See :ref:`nrfxlib:nfc` for documentation about the NFC stacks, and :ref:`ug_nfc` for general information.
 
 The NFC stack requires the NFCT driver for nRF52 devices, which is available as part of `nrfx`_.
 The nrfx repository is included in the |NCS| as a module of the Zephyr repository.

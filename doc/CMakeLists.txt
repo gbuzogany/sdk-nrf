@@ -111,6 +111,7 @@ foreach(target zephyr nrf mcuboot nrfxlib kconfig)
     COMMAND ${CMAKE_COMMAND} -E remove_directory ${TARGET_BINARY_DIR}/rst
     COMMAND ${CMAKE_COMMAND} -E remove ${TARGET_BINARY_DIR}/*.log
     COMMAND ${CMAKE_COMMAND} -E remove ${TARGET_BINARY_DIR}/*.warnings
+    COMMAND ${CMAKE_COMMAND} -E remove ${TARGET_BINARY_DIR}/last_doxy_run_tstamp
     # Remove generated HTML as well
     COMMAND ${CMAKE_COMMAND} -E remove_directory ${HTML_DIR}/${target}
   )
@@ -159,6 +160,7 @@ set(NRF_EXTRACT_CONTENT_COMMAND
   "*.rst:include:${NRF_RST_OUT}"
   "*.rst:lib:${NRF_RST_OUT}"
   "*.rst:scripts:${NRF_RST_OUT}"
+  "*.rst:tests:${NRF_RST_OUT}"
   "*.rst:applications:${NRF_RST_OUT}/doc/nrf"
   "*.rst:samples:${NRF_RST_OUT}/doc/nrf"
   "*.rst:boards:${NRF_RST_OUT}/doc/nrf"
@@ -168,6 +170,7 @@ set(NRF_EXTRACT_CONTENT_COMMAND
   "*.rst:include:${NRF_RST_OUT}/doc/nrf"
   "*.rst:lib:${NRF_RST_OUT}/doc/nrf"
   "*.rst:scripts:${NRF_RST_OUT}/doc/nrf"
+  "*.rst:tests:${NRF_RST_OUT}/doc/nrf"
 )
 
 add_custom_target(
@@ -293,6 +296,7 @@ set(NRFXLIB_DOXYFILE_OUT ${NRFXLIB_BINARY_DIR}/nrfxlib.doxyfile)
 set(NRFXLIB_RST_OUT ${NRFXLIB_BINARY_DIR}/rst)
 set(NRFXLIB_DOXY_LOG ${NRFXLIB_BINARY_DIR}/doxy.log)
 set(NRFXLIB_SPHINX_LOG ${NRFXLIB_BINARY_DIR}/sphinx.log)
+set(NRFXLIB_DOC_LOG ${NRFXLIB_BINARY_DIR}/doc.log)
 
 
 configure_file(${NRFXLIB_DOXYFILE_IN} ${NRFXLIB_DOXYFILE_OUT} @ONLY)
@@ -340,6 +344,9 @@ add_custom_target(
   KCONFIG_OUTPUT=${HTML_DIR}/kconfig
   ${SPHINXBUILD} -w ${NRFXLIB_SPHINX_LOG} -N -b html ${NRFXLIB_SPHINXOPTS} ${NRFXLIB_RST_OUT} ${HTML_DIR}/nrfxlib
 
+  # Merge the Doxygen and Sphinx logs into a single file
+  COMMAND ${CMAKE_COMMAND} -P ${ZEPHYR_BASE}/cmake/util/fmerge.cmake ${NRFXLIB_DOC_LOG} ${NRFXLIB_DOXY_LOG} ${NRFXLIB_SPHINX_LOG}
+
   WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
 )
 add_dependencies(nrfxlib-html nrfxlib-content nrfxlib-doxy)
@@ -378,10 +385,13 @@ add_custom_target(
     KCONFIG_WARN_UNDEF=y
     KCONFIG_TURBO_MODE=${KCONFIG_TURBO_MODE}
     KCONFIG_DOC_MODE=1
-      ${PYTHON_EXECUTABLE} ${ZEPHYR_BASE}/doc/scripts/genrest.py ${KCONFIG_RST_OUT}
+      ${PYTHON_EXECUTABLE}
+        ${NRF_BASE}/doc/scripts/genrest_custom.py
+        --custom-modules BuildDir,${CMAKE_BINARY_DIR}
+                         MCUboot,${MCUBOOT_BASE}
+        --zephyr-genrest ${ZEPHYR_BASE}/doc/scripts/genrest.py ${KCONFIG_RST_OUT}
         --separate-all-index
-        --modules BuildDir,builddir,${CMAKE_BINARY_DIR}
-                  Zephyr,zephyr,${ZEPHYR_BASE}
+        --modules Zephyr,zephyr,${ZEPHYR_BASE}
                   nRF,nrf,${NRF_BASE}
                   nrfxlib,nrfxlib,${NRFXLIB_BASE}
 

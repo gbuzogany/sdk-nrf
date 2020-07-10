@@ -56,17 +56,8 @@ static size_t key_len;
 static size_t iv_len;
 static size_t ad_len;
 
-void aes_ecb_clear_buffers(void)
-{
-	memset(m_aes_input_buf, 0xFF, sizeof(m_aes_input_buf));
-	memset(m_aes_output_buf, 0xFF, sizeof(m_aes_output_buf));
-	memset(m_aes_expected_output_buf, 0xFF,
-	       sizeof(m_aes_expected_output_buf));
-	memset(m_prev_aes_output_buf, 0x00, sizeof(m_prev_aes_output_buf));
-	memset(m_aes_key_buf, 0x00, sizeof(m_aes_key_buf));
-	memset(m_aes_iv_buf, 0xFF, sizeof(m_aes_iv_buf));
-	memset(m_aes_temp_buf, 0x00, sizeof(m_aes_temp_buf));
-}
+void aes_ecb_clear_buffers(void);
+void unhexify_aes_ecb(void);
 
 static int cipher_init(mbedtls_cipher_context_t *p_ctx, size_t key_len_bytes,
 		       mbedtls_cipher_mode_t mode)
@@ -112,7 +103,55 @@ static int cipher_crypt_ecb(mbedtls_cipher_context_t *p_ctx, size_t input_len)
 	return err_code;
 }
 
-__attribute__((noinline)) static void unhexify_aes(void)
+static void aes_setup_functional(void)
+{
+	aes_ecb_clear_buffers();
+
+	static int i;
+	p_test_vector =
+		ITEM_GET(test_vector_aes_ecb_func_data, test_vector_aes_t, i++);
+
+	unhexify_aes_ecb();
+}
+
+static void aes_setup(void)
+{
+	aes_ecb_clear_buffers();
+
+	static int i;
+	p_test_vector =
+		ITEM_GET(test_vector_aes_ecb_data, test_vector_aes_t, i++);
+
+	unhexify_aes_ecb();
+}
+
+static void aes_setup_monte_carlo(void)
+{
+	aes_ecb_clear_buffers();
+
+	static int i;
+	p_test_vector = ITEM_GET(test_vector_aes_ecb_monte_carlo_data,
+				 test_vector_aes_t, i++);
+
+	unhexify_aes_ecb();
+
+	LOG_DBG("key len: %d", key_len);
+	LOG_DBG("input len: %d", input_len);
+}
+
+void aes_ecb_clear_buffers(void)
+{
+	memset(m_aes_input_buf, 0xFF, sizeof(m_aes_input_buf));
+	memset(m_aes_output_buf, 0xFF, sizeof(m_aes_output_buf));
+	memset(m_aes_expected_output_buf, 0xFF,
+	       sizeof(m_aes_expected_output_buf));
+	memset(m_prev_aes_output_buf, 0x00, sizeof(m_prev_aes_output_buf));
+	memset(m_aes_key_buf, 0x00, sizeof(m_aes_key_buf));
+	memset(m_aes_iv_buf, 0xFF, sizeof(m_aes_iv_buf));
+	memset(m_aes_temp_buf, 0x00, sizeof(m_aes_temp_buf));
+}
+
+__attribute__((noinline)) void unhexify_aes_ecb(void)
 {
 	bool encrypt =
 		(p_test_vector->direction == MBEDTLS_ENCRYPT) && g_encrypt;
@@ -143,42 +182,6 @@ __attribute__((noinline)) static void unhexify_aes(void)
 				     m_aes_expected_output_buf,
 				     strlen(p_test_vector->p_plaintext));
 	}
-}
-
-static void aes_setup_functional(void)
-{
-	aes_ecb_clear_buffers();
-
-	static int i;
-	p_test_vector =
-		ITEM_GET(test_vector_aes_ecb_func_data, test_vector_aes_t, i++);
-
-	unhexify_aes();
-}
-
-static void aes_setup(void)
-{
-	aes_ecb_clear_buffers();
-
-	static int i;
-	p_test_vector =
-		ITEM_GET(test_vector_aes_ecb_data, test_vector_aes_t, i++);
-
-	unhexify_aes();
-}
-
-static void aes_setup_monte_carlo(void)
-{
-	aes_ecb_clear_buffers();
-
-	static int i;
-	p_test_vector = ITEM_GET(test_vector_aes_ecb_monte_carlo_data,
-				 test_vector_aes_t, i++);
-
-	unhexify_aes();
-
-	LOG_DBG("key len: %d", key_len);
-	LOG_DBG("input len: %d", input_len);
 }
 
 /**@brief Function for the AES functional test execution.
@@ -219,7 +222,7 @@ void exec_test_case_aes_ecb_functional(void)
 	/* Reset buffers and fetch test vector, but now decrypt. */
 	aes_ecb_clear_buffers();
 	g_encrypt = false;
-	unhexify_aes();
+	unhexify_aes_ecb();
 
 	err_code = cipher_init(&ctx, key_len, p_test_vector->mode);
 	TEST_VECTOR_ASSERT_EQUAL(0, err_code);

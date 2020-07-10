@@ -38,8 +38,16 @@ config DESKTOP_INIT_LOG_BLE_DISC_COMPLETE_EVENT
 	bool "BLE discovery complete event"
 	default y
 
+config DESKTOP_INIT_LOG_BLE_SMP_TRANSFER_EVENT
+	bool "BLE SMP transfer event"
+	default y
+
 config DESKTOP_INIT_LOG_BUTTON_EVENT
 	bool "Button event"
+	default y
+
+config DESKTOP_INIT_LOG_CPU_LOAD_EVENT
+	bool "CPU load event"
 	default y
 
 config DESKTOP_INIT_LOG_CLICK_EVENT

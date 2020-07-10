@@ -5,6 +5,7 @@
 #
 
 rsource "Kconfig.hid"
+rsource "Kconfig.smp"
 rsource "Kconfig.power_manager"
 rsource "Kconfig.hid_state"
 rsource "Kconfig.led_state"
@@ -20,3 +21,5 @@ rsource "Kconfig.watchdog"
 rsource "Kconfig.settings_loader"
 rsource "Kconfig.hotfixes"
 rsource "Kconfig.failsafe"
+rsource "Kconfig.cpu_meas"
+rsource "Kconfig.profiler_sync"

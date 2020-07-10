@@ -50,11 +50,20 @@ If the model is configured to publish to a group address, it calls :cpp:func:`bt
 Requirements
 ************
 
-* One of the following development boards:
+* One of the following development kits:
 
-  * nRF52840 Development Kit board (PCA10056)
-  * nRF52 Development Kit board (PCA10040)
-  * nRF51 Development Kit board (PCA10028)
+  * |nRF5340DK|; if you use this development kit, add the following options to the configuration of the network sample:
+
+    .. code-block:: none
+
+        CONFIG_BT_CTLR_TX_BUFFER_SIZE=74
+        CONFIG_BT_CTLR_DATA_LENGTH_MAX=74
+
+    This is required because Bluetooth Mesh has different |BLE| Controller requirements than other Bluetooth samples.
+
+  * |nRF52840DK|
+  * |nRF52DK|
+  * |nRF51DK|
 
 * Smartphone with Nordic Semiconductor's nRF Mesh mobile app installed in one of the following versions:
 

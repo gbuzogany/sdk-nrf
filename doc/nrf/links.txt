@@ -1,15 +1,11 @@
 .. ### Links to Zephyr
 
-.. _`Zephyr Project`: https://zephyrproject.org/
+.. _`Zephyr`: https://zephyrproject.org/
 
-.. _`Zephyr Project documentation`: http://docs.zephyrproject.org/
+.. _`Zephyr Project documentation`: https://docs.zephyrproject.org/
 
 .. _`official Zephyr repository`: https://github.com/zephyrproject-rtos/zephyr
 .. _`Zephyr repository`: https://github.com/zephyrproject-rtos/zephyr
-
-.. _`Zephyr coding style`: http://docs.zephyrproject.org/contribute/contribute_guidelines.html
-
-.. _`Devicetree vs Kconfig`: http://docs.zephyrproject.org/latest/guides/dts/index.html#devicetree-vs-kconfig
 
 .. ### Links to MCUboot
 
@@ -30,8 +26,13 @@
 
 .. _`change log`: https://github.com/nrfconnect/sdk-nrf/wiki/Changelog
 
+.. _`Known issues`: https://github.com/nrfconnect/sdk-nrf/wiki/Known-issues
 
 .. ### Links to Nordic documentation
+
+.. _`nRF Connect SDK v1.3.0 documentation`: https://developer.nordicsemi.com/nRF_Connect_SDK/doc/1.3.0/nrf/index.html
+
+.. _`nRF Connect SDK v1.2.1 documentation`: https://developer.nordicsemi.com/nRF_Connect_SDK/doc/1.2.1/nrf/index.html
 
 .. _`nRF Connect SDK v1.2.0 documentation`: https://developer.nordicsemi.com/nRF_Connect_SDK/doc/1.2.0/nrf/index.html
 
@@ -76,6 +77,11 @@
 
 .. _`nRF52 Series`: https://infocenter.nordicsemi.com/topic/struct_nrf52/struct/nrf52.html
 
+.. _`Wi-Fi coexistence documentation`: https://infocenter.nordicsemi.com/topic/15.4_radio_driver_v2.0.0-1.prealpha/rd_coex.html
+.. _`PA/LNA module documentation`: https://infocenter.nordicsemi.com/topic/15.4_radio_driver_v2.0.0-1.prealpha/rd_fem.html
+.. _`antenna diversity documentation`: https://infocenter.nordicsemi.com/topic/15.4_radio_driver_v2.0.0-1.prealpha/ant_diversity.html
+
+.. _`anomaly 19`: https://infocenter.nordicsemi.com/topic/errata_nRF5340_EngA/ERR/nRF5340/EngineeringA/latest/anomaly_340_19.html
 
 .. ### Links to the Nordic website
 
@@ -128,6 +134,8 @@
 
 .. _`nrfx`: https://github.com/NordicSemiconductor/nrfx/
 
+.. _`Changelog for nrfx 2.2.0`: https://github.com/NordicSemiconductor/nrfx/blob/master/CHANGELOG.md#220---2020-04-28
+
 .. _`nRF Thread Topology Monitor`: https://infocenter.nordicsemi.com/topic/sdk_tz_v4.1.0/thread_topology_monitor.html
 
 .. _`nRF Sniffer for 802.15.4 based on nRF52840 with Wireshark`: https://infocenter.nordicsemi.com/topic/sdk_tz_v4.1.0/nrf802154_sniffer.html
@@ -149,8 +157,6 @@
 
 .. _`GitHub duplicate`: https://help.github.com/en/articles/duplicating-a-repository
 
-.. _`Semantic Versioning 2.0.0`: https://semver.org/
-
 .. _`nRF Cloud`: https://nrfcloud.com/
 
 .. _`openSSL`: https://www.openssl.org/
@@ -159,20 +165,19 @@
 
 .. _`J-Link Software and Documentation Pack`: https://www.segger.com/downloads/jlink
 
-.. _`SEGGER Embedded Studio (Nordic Edition) - Windows x86`: http://segger.com/downloads/embedded-studio/embeddedstudio_arm_nordic_win_x86
-.. _`SEGGER Embedded Studio (Nordic Edition) - Windows x64`: http://segger.com/downloads/embedded-studio/embeddedstudio_arm_nordic_win_x64
-.. _`SEGGER Embedded Studio (Nordic Edition) - Mac OS x64`: http://segger.com/downloads/embedded-studio/embeddedstudio_arm_nordic_macos
-.. _`SEGGER Embedded Studio (Nordic Edition) - Linux x86`: http://segger.com/downloads/embedded-studio/embeddedstudio_arm_nordic_linux_x86
-.. _`SEGGER Embedded Studio (Nordic Edition) - Linux x64`: http://segger.com/downloads/embedded-studio/embeddedstudio_arm_nordic_linux_x64
-
+.. _`SEGGER Embedded Studio (Nordic Edition) - Windows x86`: https://segger.com/downloads/embedded-studio/embeddedstudio_arm_nordic_win_x86
+.. _`SEGGER Embedded Studio (Nordic Edition) - Windows x64`: https://segger.com/downloads/embedded-studio/embeddedstudio_arm_nordic_win_x64
+.. _`SEGGER Embedded Studio (Nordic Edition) - Mac OS x64`: https://segger.com/downloads/embedded-studio/embeddedstudio_arm_nordic_macos
+.. _`SEGGER Embedded Studio (Nordic Edition) - Linux x86`: https://segger.com/downloads/embedded-studio/embeddedstudio_arm_nordic_linux_x86
+.. _`SEGGER Embedded Studio (Nordic Edition) - Linux x64`: https://segger.com/downloads/embedded-studio/embeddedstudio_arm_nordic_linux_x64
 
 .. _`HID usage tables`: https://www.usb.org/hid
 
 .. _`SEGGER SystemView`: https://www.segger.com/products/development-tools/systemview/
 
-.. _`CMock`: http://www.throwtheswitch.org/cmock
+.. _`CMock`: https://www.throwtheswitch.org/cmock
 
-.. _`Unity`: http://www.throwtheswitch.org/unity
+.. _`Unity`: https://www.throwtheswitch.org/unity
 
 .. _`MCUmgr`: https://github.com/apache/mynewt-mcumgr
 
@@ -194,6 +199,8 @@
 
 .. _`OpenAMP`: https://github.com/OpenAMP/open-amp/
 
+.. _`RPMsg`: https://github.com/OpenAMP/open-amp/wiki/RPMsg-Messaging-Protocol
+
 .. _`SSL Labs`: https://www.ssllabs.com/ssltest/
 
 .. _`GNSS`: https://en.wikipedia.org/wiki/Satellite_navigation
@@ -208,6 +215,8 @@
 
 .. _`ISO/IEC 7816-4`: https://www.iso.org/standard/54550.html
 
+.. _`BH1749NUC-E`: https://www.rohm.com/datasheet/BH1749NUC/bh1749nuc-e
+
 .. ### Links to Bluetooth specs
 
 .. _`Bluetooth Core Specification`: https://www.bluetooth.com/specifications/bluetooth-core-specification
@@ -215,6 +224,8 @@
 .. _`HID Service Specification`: https://www.bluetooth.org/docman/handlers/downloaddoc.ashx?doc_id=245140
 
 .. _`Battery Service Specification`: https://www.bluetooth.org/docman/handlers/downloaddoc.ashx?doc_id=245138
+
+.. ### Links to Bluetooth Mesh
 
 .. _`Mesh Model Specification`: https://www.bluetooth.com/specifications/mesh-specifications/
 
@@ -231,7 +242,7 @@
 
 .. ### Links to NFC specs
 
-.. _`Bluetooth Secure Simple Pairing Using NFC`: http://nfc-forum.org/our-work/specifications-and-application-documents/application-documents
+.. _`Bluetooth Secure Simple Pairing Using NFC`: https://www.bluetooth.com/bluetooth-resources/bluetooth-secure-simple-pairing-using-nfc-application-document/
 
 .. _`NFC Forum specification overview`: https://nfc-forum.org/our-work/specification-releases/specifications/
 
@@ -239,7 +250,7 @@
 
 .. _`802.15.2-2003 specification`: https://standards.ieee.org/standard/802_15_2-2003.html
 
-.. ### Links to OpenThread
+.. ### Links to Thread and OpenThread
 
 .. _`OpenThread CoAP API`: https://openthread.io/reference/group/api-coap
 
@@ -249,6 +260,8 @@
 
 .. _`Thread Group`: https://www.threadgroup.org
 
+.. _`Thread protocol specification`: https://www.threadgroup.org/ThreadSpec
+
 .. _`Creative Commons 3.0 Attribution License`: https://creativecommons.org/licenses/by/3.0/
 
 .. _`shared by Google`: https://developers.google.com/readme/policies/
@@ -257,17 +270,63 @@
 
 .. _`Thread Commissioning on OpenThread portal`: https://openthread.io/guides/build/commissioning
 
+.. _`Thread Group's Commissioning White Paper`: https://www.threadgroup.org/Portals/0/documents/support/CommissioningWhitePaper_658_2.pdf
+
+.. _`Commissioner CLI commands`: https://github.com/openthread/openthread/blob/master/src/cli/README_COMMISSIONER.md
+
+.. _`Joiner CLI commands`: https://github.com/openthread/openthread/blob/master/src/cli/README_JOINER.md
+
 .. ### Links to Zigbee
 
 .. _`Zigbee Alliance`: https://www.zigbeealliance.org
 
 .. _`Zigbee Specification`: https://zigbeealliance.org/developer_resources/zigbee-specification
 
+
+.. ### Links to crypto specs
+
+.. _`NIST - AES`: https://csrc.nist.gov/projects/cryptographic-algorithm-validation-program/block-ciphers#AES
+
+.. _`NIST SP 800-38A`: https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-38a.pdf
+
+.. _`NIST SP 800-38B`: https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-38b.pdf
+
+.. _`NIST - CCM`: https://csrc.nist.gov/Projects/Cryptographic-Algorithm-Validation-Program/CAVP-TESTING-BLOCK-CIPHER-MODES#CCM
+
+.. _`The EAX Mode of Operation`: https://csrc.nist.gov/csrc/media/projects/block-cipher-techniques/documents/bcm/proposed-modes/eax/eax-spec.pdf
+
+.. _`NIST - GCM`: https://csrc.nist.gov/Projects/Cryptographic-Algorithm-Validation-Program/CAVP-TESTING-BLOCK-CIPHER-MODES#GCMVS
+
+.. _`RFC 7539 - ChaCha20 and Poly1305 for IETF Protocols`: https://tools.ietf.org/html/rfc7539
+
+.. _`GEC 2: Test Vectors for SEC 1`: http://read.pudn.com/downloads168/doc/772358/TestVectorsforSEC%201-gec2.pdf
+
+.. _`NIST - ECDH`: https://csrc.nist.gov/Projects/Cryptographic-Algorithm-Validation-Program/Component-Testing#ECCCDH
+
+.. _`RFC 7027 - ECC Brainpool Curves for TLS`: https://tools.ietf.org/html/rfc7027
+
+.. _`RFC 7748 - Elliptic Curves for Security`: https://tools.ietf.org/html/rfc7748
+
+.. _`NIST - ECDSA`: https://csrc.nist.gov/Projects/Cryptographic-Algorithm-Validation-Program/Digital-Signatures#ecdsa2vs
+
+.. _`RFC 5639 - ECC Brainpool Standard Curves and Curve Generation`: https://tools.ietf.org/html/rfc5639
+
+.. _`RFC 8032 - Edwards-Curve Digital Signature Algorithm (EdDSA)`: https://tools.ietf.org/html/rfc8032
+
+.. _`NIST - SHA`: https://csrc.nist.gov/Projects/Cryptographic-Algorithm-Validation-Program/Secure-Hashing#shavs
+
+.. _`NIST - HMAC`: https://csrc.nist.gov/projects/cryptographic-algorithm-validation-program/message-authentication
+
+.. _`RFC 5869 - HMAC-based Extract-and-Expand Key Derivation Function (HKDF)`: https://tools.ietf.org/html/rfc5869
+
+.. _`J-PAKE: Password-Authenticated Key Exchange by Juggling`: https://tools.ietf.org/html/rfc8236#section-3
+
+
 .. ### Links to other documentation
 
 .. _`Breathe documentation`: https://breathe.readthedocs.io/en/latest/directives.html#directives
 
-.. _`reStructuredText Primer`: http://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html
+.. _`reStructuredText Primer`: https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html
 
 .. _`ST25R3911B chip documentation`: https://www.st.com/resource/en/datasheet/st25r3911b.pdf
 
@@ -297,15 +356,28 @@
 .. _`Ephemeris`: https://en.wikipedia.org/wiki/Ephemeris
 .. _`Almanac`: https://en.wikipedia.org/wiki/GPS_signals#Almanac
 
-.. _`SUPL context model`: http://www.openmobilealliance.org/release/SUPL/V1_0-20060127-C/OMA-AD-SUPL-V1_0-20060127-C.pdf#page=16
+.. _`SUPL context model`: https://www.openmobilealliance.org/release/SUPL/V1_0-20060127-C/OMA-AD-SUPL-V1_0-20060127-C.pdf#page=16
 
 .. _`LTE Positioning Protocol (LPP)`:  https://www.etsi.org/deliver/etsi_ts/136300_136399/136355/11.01.00_60/ts_136355v110100p.pdf#page=12
 
-.. _`SET-initiated SUPL collaboration`: http://www.openmobilealliance.org/release/SUPL/V2_0_4-20181213-A/OMA-TS-ULP-V2_0_4-20181213-A.pdf#page=128
+.. _`SET-initiated SUPL collaboration`: https://www.openmobilealliance.org/release/SUPL/V2_0_4-20181213-A/OMA-TS-ULP-V2_0_4-20181213-A.pdf#page=128
 
-.. _`SET-Initiated Non-Roaming Successful Case (Proxy mode)`: http://www.openmobilealliance.org/release/SUPL/V2_0_4-20181213-A/OMA-TS-ULP-V2_0_4-20181213-A.pdf#page=129
+.. _`SET-Initiated Non-Roaming Successful Case (Proxy mode)`: https://www.openmobilealliance.org/release/SUPL/V2_0_4-20181213-A/OMA-TS-ULP-V2_0_4-20181213-A.pdf#page=129
 
 .. _`Secure Location Protocol (SLP)` : https://en.wikipedia.org/wiki/Service_Location_Protocol
+
+.. _`Verizon's Thingspace`: https://thingspace.verizon.com
+.. _`AT&T's IoT Platform`: https://iotplatform.att.com
+.. _`Pre-Shared Key (PSK)`: https://en.wikipedia.org/wiki/Pre-shared_key
+.. _`Mbed TLS`: https://en.wikipedia.org/wiki/Mbed_TLS
+
+.. _`CoAP response codes`: https://tools.ietf.org/html/rfc7252#section-12.1.2
+
+.. _`RFC 7252 - The Constrained Application Protocol`: https://tools.ietf.org/html/rfc7252
+
+.. _`tutorial on SSL.com`: https://support.ssl.com/Knowledgebase/Article/View/19/0/der-vs-crt-vs-cer-vs-pem-certificates-and-how-to-convert-them
+
+.. _`RFC959 File Transfer Protocol (FTP)`: https://tools.ietf.org/html/rfc959
 
 .. ### Links to specific files on GitHub
 
@@ -315,10 +387,4 @@
 
 .. _`tests/unity/example_test/CMakeLists.txt`: https://github.com/nrfconnect/sdk-nrf/blob/master/tests/unity/example_test/CMakeLists.txt
 
-.. _`CoAP response codes`: https://tools.ietf.org/html/rfc7252#section-12.1.2
-
-.. _`RFC 7252 - The Constrained Application Protocol`: https://tools.ietf.org/html/rfc7252
-
-.. _`tutorial on SSL.com`: https://support.ssl.com/Knowledgebase/Article/View/19/0/der-vs-crt-vs-cer-vs-pem-certificates-and-how-to-convert-them
-
-.. _`RFC959 File Transfer Protocol (FTP)`: https://tools.ietf.org/html/rfc959
+.. _`nRF52820 CMakeLists.txt`: https://github.com/zephyrproject-rtos/zephyr/blob/master/boards/arm/nrf52833dk_nrf52820/CMakeLists.txt
